@@ -1,0 +1,6 @@
+name: random_all
+main: com.rrayy.randomall
+version: 1.0
+api-version: 1.19
+description: This plugin makes all interctions are random
+authors: [rrayy]
