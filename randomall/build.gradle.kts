@@ -12,14 +12,11 @@ repositories {
 
 dependencies {
     // Include the Paper API for Minecraft plugin development.
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT") // Use the appropriate version
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT") // Use the appropriate version
 
     // Optionally, you can add JUnit for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // Other dependencies like Guava can be included if needed.
-    implementation(libs.guava)
 }
 
 java {
@@ -34,17 +31,16 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
-// Configure jar task to build a plugin-compatible JAR file.
-tasks.named<Jar>("jar") {
-    // Add plugin.yml to the root of the JAR to define plugin metadata.
-    from("src/main/resources/plugin.yml") {
-        into("/")
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    filesMatching("plugin.yml") {
+        expand("version" to project.version)
     }
 }
 
-// Plugin metadata for Minecraft (create src/main/resources/plugin.yml)
-tasks.processResources {
-    filesMatching("plugin.yml") {
-        expand("version" to project.version)
+tasks.named<Jar>("jar") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from("src/main/resources/plugin.yml") {
+        into("/")
     }
 }
